@@ -9,12 +9,19 @@ import RouterComp from "./Router";
 const STORE = createStore(reducers,{},applyMiddleware(thunk))
 
 class Base extends React.Component {
-   render(){
-       return(
+
+    componentDidMount(){
+        const firebaseConfig = {
+
+        }
+    }
+
+    render(){
+        return(
            <Provider store={STORE}>
                <RouterComp/>
            </Provider>
-       )
+        )
     }
 }
 
