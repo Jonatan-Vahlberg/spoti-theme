@@ -9,3 +9,5 @@ export * from "./Switch.js"
 export * from "./FlatList"
 export * from "./FloatingButton"
 export * from "./ImagePage_Android"
+
+export * from "./Emoji"

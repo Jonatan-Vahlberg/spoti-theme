@@ -5,29 +5,35 @@ import _ from "lodash"
 import Axios from "axios";
 
 import {ImagePage_Android, Spinner} from "./common";
-import {fetchImage} from "../actions"
+import {fetchImage, addPlaylists, fetchThemes} from "../actions"
 import SpotyfiList from "./SpotifyList";
 
 class MainPage extends React.Component {
     constructor(props){
         super(props)
-        
+       
     }
 
-    state = {loaded: false, page: 0,playlists: {}}
+    componentDidMount(){
+        this.props.fetchThemes()       
+    }
+
+    state = {loaded: false, page: 0}
 
    render(){ 
+       console.log("test")
         this.fetchImages()
         this.props.images.forEach(image => {
-            if((this.state.playlists[image.id] === null) || this.state.playlists[image.id] === undefined){
-                this.fetchPlaylists(image.name,image.id)
+            if((this.props.playlists[image.id] === null) || this.props.playlists[image.id] === undefined || image.updated){
+                console.log('image fetch', image)
+                this.fetchPlaylists(image.query,image.id)
             }
         })
         return(
             
             <React.Fragment>
                 {this.renderImagePage()}
-                {this.renderList()}
+                {this.props.images.length !== 0 && this.renderList()}
             </React.Fragment>
 
         )
@@ -46,14 +52,15 @@ class MainPage extends React.Component {
     }
 
     renderList(){
-        const {page, playlists,loaded} = this.state
-        const {images, token} = this.props
+        const {page} = this.state
+        const {images, token, playlists} = this.props
         const playlistsLength = this.getObjectLength(playlists)
         
-        if((loaded && token && (playlists !== {}))&& (playlistsLength === images.length)){
+        
+        if((token && (playlists !== {}))&& (playlistsLength === images.length)){
             return (
                 <SpotyfiList
-                    data={playlists[images[page].id].data}/>
+                    data={playlists[images[page].id]}/>
             )
         }
         else{
@@ -68,6 +75,7 @@ class MainPage extends React.Component {
     fetchImages(){
         this.props.images.forEach(image => {
             if(image.uri === ""){
+                console.log('image fetch', image)
                 this.props.fetchImage(image)
             }
         });
@@ -94,10 +102,10 @@ class MainPage extends React.Component {
                 }
                 data.push(dataItem)
             }))
-            this.setState({playlists: {...this.state.playlists,[imageId]: {data: data}}, loaded: true})
+            this.props.addPlaylists(data,imageId)
         }
         else{
-            this.setState({playlists: [], loaded: false})
+            this.setState({loaded: false})
         }
         
     }
@@ -111,11 +119,12 @@ class MainPage extends React.Component {
 }
 
 const mapStateToProps = (state,ownProps) => {
-    const images = _.map(state.data,(val,id) => {return {...val,id}})
+    const images = _.map(state.data,(val,id) => {return {...val}})
     return {
         images: images,
-        token: state.auth.token
+        token: state.auth.token,
+        playlists: state.playlists
     }
 }
 
-export default connect(mapStateToProps,{fetchImage}) (MainPage)
+export default connect(mapStateToProps,{fetchImage, addPlaylists, fetchThemes}) (MainPage)

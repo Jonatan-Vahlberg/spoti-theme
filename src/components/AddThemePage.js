@@ -2,21 +2,34 @@ import React from "react"
 import {connect} from "react-redux"
 import { Card, CardSection, Input, Button } from "./common";
 
-import {addTheme} from "../actions"
+import {addTheme, updateTheme} from "../actions"
 
 class AddThemePage extends React.Component {
-    componentDidMount(){
-        this.generateId()
-    }
-    state = {
-        name: "",
-        spotifyQuery: "",
-        uri: "",
-        id: ""
+    constructor(props){
+        super(props)
+
+        if(props.theme !== null && props.theme !== undefined){
+            const {name,query,id} = props.theme
+            this.state= {
+                name,
+                query,
+                uri: "",
+                updated: true
+            }
+        }
+        else{
+            this.state = {
+                name: "",
+                query: "",
+                uri: "",
+                updated: false
+            }
+            
+        }
     }
 
     render(){
-        const {name,spotifyQuery,uri,id} = this.state
+        const {name,query} = this.state
         return(
            
             <Card>
@@ -29,28 +42,32 @@ class AddThemePage extends React.Component {
                 <CardSection>
                     <Input
                         label="Spotify Query"
-                        value={spotifyQuery}
-                        onChangeText={(spotifyQuery) => this.setState({spotifyQuery})}/>
+                        value={query}
+                        onChangeText={(query) => this.setState({query})}/>
                 </CardSection>
                 <CardSection>
-                    <Button title="Add" onPress={this.addTheme.bind(this)}/>    
-                </CardSection> 
+                    {this.renderButton()}
+                </CardSection>
             </Card>
        )
     }
-
-    generateId(){
-        let id = "a"
-        for (let i = 0; i < 8; i++) {
-            id += Math.floor(Math.random()* 9)
-            
+    renderButton(){
+        if(this.props.theme !== null && this.props.theme !== undefined){
+            return <Button title="update"
+                        onPress={this.updateTheme}/>
         }
-        this.setState({id})
+        else{
+            return <Button title="Add"
+                        onPress={this.addTheme}/>
+        }
+    }
+    updateTheme = () => {
+        this.props.updateTheme(this.props.theme.id,this.state)
     }
 
-    addTheme(){
+    addTheme = () => {
         this.props.addTheme(this.state)
     }
 }
 
-export default connect(null,{addTheme}) (AddThemePage)
+export default connect(null,{addTheme, updateTheme}) (AddThemePage)

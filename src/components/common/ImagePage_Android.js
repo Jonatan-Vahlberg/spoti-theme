@@ -3,7 +3,7 @@ import {View, Image, ScrollView, Dimensions, StyleSheet} from "react-native"
 
 const SCREEN_WIDTH = Dimensions.get('window').width
 const SCREEN_HEIGHT = Dimensions.get('screen').height
-const STOCK_IMAGE = "https://images.unsplash.com/photo-1501166222995-ff31c7e93cef?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1491&q=80"
+const STOCK_IMAGE = "https://images.unsplash.com/photo-1557683304-673a23048d34?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=486&q=80"
 
 class ImagePage_Android extends React.Component {
     

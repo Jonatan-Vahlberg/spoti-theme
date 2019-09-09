@@ -6,6 +6,7 @@ import AuthPage from "./components/AuthPage";
 import MainPage from "./components/MainPage";
 import AddThemePage from "./components/AddThemePage";
 import SpotifyAuth from "./components/SpotifyAuth";
+import OverviewPage from "./components/OverviewPage";
 
 const TabIcon =({selected, title}) => {
     return(
@@ -22,10 +23,10 @@ class RouterComp extends React.Component {
                     initial={true}
                     hideNavBar={true}>
                         <Scene key="loginPage"
+                        initial={true}
                         component={AuthPage}/>
                         <Scene key="spotifyAuth"
                         component={SpotifyAuth}
-                        initial={true}
                         hideNavBar={true}/>
                    </Scene>
                     <Scene key="tabs"
@@ -36,13 +37,16 @@ class RouterComp extends React.Component {
                                 hideNavBar={true}
                                 component={MainPage}
                                 titleStyle={{opacity: 0}}
-                                title="Playlists"/>
-                            <Scene key="add"
+                                title="Themes"/>
+                            <Scene key="overview"
                                 hideNavBar={true}
-                                component={AddThemePage}
+                                component={OverviewPage}
                                 titleStyle={{opacity: 0}}
-                                title="Add"/>
+                                title="Overview"/>
                         </Scene>
+                    <Scene key="add"
+                        hideNavBar={false}
+                        component={AddThemePage}/>
                </Stack>
            </Router>
        )

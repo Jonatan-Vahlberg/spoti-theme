@@ -7,11 +7,10 @@ import {connect} from "react-redux"
 
 import {CardSection, Button } from "./common";
 import {SpotyfiCredentials} from "../../secret"
-import {spotifyAuthSuccess} from "../actions"
+import {spotifyAuthSuccess, fetchThemes} from "../actions"
 
 
 class SpotifyAuth extends React.Component {
-
     state= {error: false}
    render(){
        return(
@@ -74,4 +73,4 @@ const styles = StyleSheet.create({
     }
 })
 
-export default connect(null,{spotifyAuthSuccess}) (SpotifyAuth)
+export default connect(null,{spotifyAuthSuccess,fetchThemes}) (SpotifyAuth)
