@@ -1,9 +1,9 @@
 import React from "react"
 import {View, ActivityIndicator} from "react-native"
 
-const Spinner = ({size, color}) => {
+const Spinner = ({size, color, backgroundColor = "#fff"}) => {
     return (
-        <View style={styles.containerStyle}>
+        <View style={[styles.containerStyle,{backgroundColor}]}>
             <ActivityIndicator size={size || "large"} color={color || "lightblue"} />
         </View>
     )

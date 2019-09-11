@@ -5,7 +5,6 @@ const INTIAL_STATE = {}
 export default dataReducer = (state = INTIAL_STATE, action) => {
     
     const {type,payload} = action
-    console.log()
     switch(type){
         case "fetchThemes":
             return payload

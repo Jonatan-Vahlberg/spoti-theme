@@ -24,7 +24,10 @@ class RouterComp extends React.Component {
                     hideNavBar={true}>
                         <Scene key="loginPage"
                         initial={true}
-                        component={AuthPage}/>
+                        component={AuthPage}
+                        hideNavBar={false}
+                        titleStyle={{color: "#1DB954"}}
+                        title="Login to SpotiTheme"/>
                         <Scene key="spotifyAuth"
                         component={SpotifyAuth}
                         hideNavBar={true}/>

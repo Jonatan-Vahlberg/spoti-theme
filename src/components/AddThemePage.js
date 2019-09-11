@@ -1,7 +1,7 @@
 import React from "react" 
 import {connect} from "react-redux"
-import { Card, CardSection, Input, Button } from "./common";
-
+import { Card, CardSection, Input, Button, Spinner } from "./common";
+import _ from "lodash"
 import {addTheme, updateTheme} from "../actions"
 
 class AddThemePage extends React.Component {
@@ -14,7 +14,8 @@ class AddThemePage extends React.Component {
                 name,
                 query,
                 uri: "",
-                updated: true
+                updated: true,
+                loading: false
             }
         }
         else{
@@ -22,10 +23,14 @@ class AddThemePage extends React.Component {
                 name: "",
                 query: "",
                 uri: "",
-                updated: false
+                updated: false,
+                loading: false
             }
             
         }
+    }
+    componentDidMount(){
+        
     }
 
     render(){
@@ -52,6 +57,11 @@ class AddThemePage extends React.Component {
        )
     }
     renderButton(){
+        if(this.state.loading){
+            return (
+                <Spinner/>
+            )
+        }
         if(this.props.theme !== null && this.props.theme !== undefined){
             return <Button title="update"
                         onPress={this.updateTheme}/>
@@ -62,11 +72,16 @@ class AddThemePage extends React.Component {
         }
     }
     updateTheme = () => {
-        this.props.updateTheme(this.props.theme.id,this.state)
+        this.setState({loading: true})
+        const theme = _.omit(this.state,["loading"])
+
+        this.props.updateTheme(this.props.theme.id,theme)
     }
 
     addTheme = () => {
-        this.props.addTheme(this.state)
+        this.setState({loading: true})
+        const theme = _.omit(this.state,["loading"])
+        this.props.addTheme(theme)
     }
 }
 

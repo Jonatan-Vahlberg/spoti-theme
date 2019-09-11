@@ -13,7 +13,6 @@ class OverviewPage extends React.Component {
 
     state = {visible: false, item: null}
     render(){
-        console.log(this.state)
         const {themes} = this.props
         return(
            <React.Fragment>
@@ -51,7 +50,6 @@ class OverviewPage extends React.Component {
         }
         else{
             return(
-
                 <CardSection>
                     <Button title="Add new theme"
                         onPress={this.addTheme}/>
@@ -60,7 +58,6 @@ class OverviewPage extends React.Component {
         }
     }
     renderTheme = ({item}) => {
-        console.log(item)
         const {itemContainer,itemText, imgStyle, buttonStyle} = styles
         return (
             <TouchableOpacity onPress={() => this.updateTheme(item)}>
@@ -92,8 +89,6 @@ class OverviewPage extends React.Component {
         await this.props.removeTheme(theme.id)
         this.props.removePlaylists(theme.id)
         this.setState({visible: false})
-
-
     }
 
     renderModal = () => {
@@ -103,14 +98,13 @@ class OverviewPage extends React.Component {
         }
         return (
             <Confirm
-                children={`Do you wish to delete the ${item.name} theme?`}
+                children={(<Text style={{marginVertical: 10}}>{`Do you wish to delete the ${item.name} theme?`}</Text>)}
                 onConfirm={() => this.removeTheme(item)}
                 onAbort={() => this.setState({visible: false})}
                 visible={this.state.visible}/>
         )
     }
 }
-
 
 
 const styles = StyleSheet.create({

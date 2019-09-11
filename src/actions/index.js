@@ -15,7 +15,6 @@ export const fetchImage = (image) => (dispatch) =>{
         }
     })
     .then(({data}) => {
-        console.log(data)
         if(data.results.length == 0){
             image.uri = "https://images.unsplash.com/photo-1557683304-673a23048d34?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=486&q=80" 
         }
@@ -42,7 +41,6 @@ export const fetchThemes = () => (dispatch) => {
             if(!querySnapshot.empty){
                 const docs = querySnapshot.docs
                 const data = {}
-                console.log("fetch", docs)
                 docs.forEach(doc => {
                     const id = doc.id
                     const newDocument = {...doc.data(),id}
