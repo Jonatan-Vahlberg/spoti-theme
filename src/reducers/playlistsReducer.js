@@ -9,6 +9,8 @@ export default playlistsReducer = (state = INITIAL_STATE,action) => {
         case "removePlaylists":
             var newState = _.omit(state,[payload.id])
             return {...newState}
+        case "LOG_OUT_IN_PROGRESS":
+            return INITIAL_STATE
         default:
             return state
     }

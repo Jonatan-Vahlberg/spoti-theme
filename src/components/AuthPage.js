@@ -32,7 +32,8 @@ class AuthPage extends React.Component {
                         placeholder="enter password"
                         inputStyle={{color: "#fff", backgroundColor: "#000"}}
                         textStyle={{color: "#1DB954", backgroundColor: "#000"}}
-                        containerStyle={{backgroundColor: "#000"}}/>
+                        containerStyle={{backgroundColor: "#000"}}
+                        secureTextEntry={true}/>
                 </CardSection>
                 <CardSection>
                     {this.renderButton()}

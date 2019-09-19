@@ -10,6 +10,8 @@ export default authReducer = (state = initial_state,action) =>{
 
         case "SPOTIFY_AUTH_SUCCESS":
             return {...state, token: action.payload}
+        case "LOG_OUT_IN_PROGRESS":
+            return initial_state
         default: 
             return state
     }

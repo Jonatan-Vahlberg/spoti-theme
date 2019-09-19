@@ -118,3 +118,7 @@ export const spotifyAuthSuccess = (token) => {
     return {type: "SPOTIFY_AUTH_SUCCESS", payload: token}
     Actions.lists()
 }
+
+export const LOG_OUT_APPLICATION = () => {
+    return {type:"LOG_OUT_IN_PROGRESS"}
+}

@@ -17,6 +17,8 @@ export default dataReducer = (state = INTIAL_STATE, action) => {
             return {...newState}
         case "image_fetch":
             return {...state,[payload.id]: payload.value}
+        case "LOG_OUT_IN_PROGRESS":
+            return INTIAL_STATE
         default:
             return state
     }

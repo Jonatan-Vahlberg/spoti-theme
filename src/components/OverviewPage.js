@@ -4,8 +4,9 @@ import {connect} from "react-redux"
 import _ from "lodash" 
 import { Button, FlatList, CardSection, Confirm } from "./common"
 import { Actions } from "react-native-router-flux"
-
-import {removeTheme,removePlaylists} from "../actions"
+import {SpotyfiCredentials} from "../../secret"
+import {removeTheme,removePlaylists, spotifyAuthSuccess, LOG_OUT_APPLICATION} from "../actions"
+import { AuthSession } from "expo"
 
 const SCREEN_HEIGHT = Dimensions.get('screen').height
 
@@ -28,13 +29,18 @@ class OverviewPage extends React.Component {
                 <CardSection>
                     <Button title="Refresh Token"
                         buttonStyle={{backgroundColor: "#1DB954"}}
-                        textStyle={{color: "#fff"}}/>
+                        textStyle={{color: "#fff"}}
+                        onPress={this.authorizeSpotyfi}/>
                 </CardSection>
                 <CardSection>
                     <Button
                         title="Log Out"
                         buttonStyle={{backgroundColor: "red"}}
-                        textStyle={{color: "#fff"}}/>
+                        textStyle={{color: "#fff"}}
+                        onPress={() =>{
+                            this.props.LOG_OUT_APPLICATION()
+                            Actions.auth()
+                        }}/>
                 </CardSection>
                {this.renderModal()}
            </React.Fragment>
@@ -104,6 +110,24 @@ class OverviewPage extends React.Component {
                 visible={this.state.visible}/>
         )
     }
+
+    authorizeSpotyfi = async () => {
+        let redirectUrl = AuthSession.getRedirectUrl()
+        let results = await AuthSession.startAsync({
+            authUrl:
+            `https://accounts.spotify.com/authorize?client_id=${SpotyfiCredentials.clientID}&redirect_uri=${encodeURIComponent(redirectUrl)}&scope=user-read-private%20user-read-email&response_type=token&state=123`
+          })
+
+        if(results.type !== 'success'){
+            this.setState({error: true})
+            
+        }
+        
+        else{
+            this.props.spotifyAuthSuccess(results.params.access_token)
+            
+        }
+    }
 }
 
 
@@ -140,4 +164,4 @@ const mapStateToProps = (state,ownProps) => {
     return {themes}
 }
 
-export default connect(mapStateToProps,{removeTheme,removePlaylists})(OverviewPage)
+export default connect(mapStateToProps,{removeTheme,removePlaylists, spotifyAuthSuccess, LOG_OUT_APPLICATION})(OverviewPage)
